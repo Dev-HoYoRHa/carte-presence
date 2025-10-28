@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Créateur d'affiche A4</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  h2 {
+    color: #00ff66;
+  }
+
+  /* ====== FORMULAIRE ====== */
+  form {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,255,100,0.5);
+    width: 350px;
+    margin-bottom: 25px;
+  }
+
+  form input, form select {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #00ff66;
+    background: #000;
+    color: white;
+    font-size: 14px;
+  }
+
+  form button {
+    background: #00ff66;
+    color: #000;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  form button:hover {
+    background: #00cc55;
+  }
+
+</style>
+</head>
+<body>
+
+<h2>🖤 Générateur d'affiche (Format A4)</h2>
+
+<form id="formAffiche">
+  <input type="text" id="nom" placeholder="Nom" required>
+  <input type="text" id="prenom" placeholder="Prénom" required>
+  <select id="sexe" required>
+    <option value="">Sexe</option>
+    <option value="Homme">Homme</option>
+    <option value="Femme">Femme</option>
+  </select>
+  <input type="number" id="age" placeholder="Âge" required>
+  <input type="text" id="profession" placeholder="Profession" required>
+  <input type="text" id="evenement" placeholder="Nom de l'événement" required>
+  <input type="file" id="photo" accept="image/*" required>
+  <button type="submit">Créer l'affiche</button>
+</form>
+
+<script>
+document.getElementById("formAffiche").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const nom = document.getElementById("nom").value;
+  const prenom = document.getElementById("prenom").value;
+  const sexe = document.getElementById("sexe").value;
+  const age = document.getElementById("age").value;
+  const profession = document.getElementById("profession").value;
+  const evenement = document.getElementById("evenement").value;
+  const photoInput = document.getElementById("photo");
+  const photoURL = URL.createObjectURL(photoInput.files[0]);
+
+  // === CODE DE L'AFFICHE A OUVRIR DANS UN NOUVEL ONGLET ===
+  const afficheHTML = `
+  <!DOCTYPE html>
+  <html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Affiche - ${evenement}</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #000 50%, #00ff66 50%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100vh;
+        padding: 40px;
+        box-sizing: border-box;
+        color: white;
+      }
+      .infos {
+        width: 40%;
+        font-size: 22px;
+        line-height: 1.7;
+      }
+      .infos p { margin: 8px 0; }
+      .photo {
+        width: 55%;
+        text-align: center;
+      }
+      .evenement {
+        font-size: 80px;
+        font-weight: 800;
+        color: #fff;
+        text-shadow: 3px 3px 10px rgba(0,0,0,0.7);
+        margin-bottom: 20px;
+      }
+      img {
+        width: 390px;
+        height: 390px;
+        border-radius: 20px;
+        border: 5px solid #fff;
+        object-fit: cover;
+        box-shadow: 0 0 30px rgba(0,0,0,0.7);
+      }
+      .phrase {
+        font-size: 80px;
+        font-weight: 800;
+        background: white;
+        color: black;
+        display: inline-block;
+        padding: 15px 40px;
+        border-radius: 12px;
+        margin-top: 30px;
+      }
+      @media print {
+        body { background: white; color: black; box-shadow: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="infos">
+      <p><strong>Nom :</strong> ${nom}</p>
+      <p><strong>Prénom :</strong> ${prenom}</p>
+      <p><strong>Sexe :</strong> ${sexe}</p>
+      <p><strong>Âge :</strong> ${age} ans</p>
+      <p><strong>Profession :</strong> ${profession}</p>
+    </div>
+    <div class="photo">
+      <div class="evenement">${evenement}</div>
+      <img src="${photoURL}" alt="photo">
+      <div class="phrase">JE SERAI LÀ !</div>
+    </div>
+  </body>
+  </html>
+  `;
+
+  // Création et ouverture d’un nouvel onglet
+  const newWindow = window.open();
+  newWindow.document.open();
+  newWindow.document.write(afficheHTML);
+  newWindow.document.close();
+});
+</script>
+
+</body>
+</html>
